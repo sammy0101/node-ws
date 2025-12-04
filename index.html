@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NODE-WS | 系统控制台</title>
+    <title>NODE-WS | System Console</title>
     <style>
         :root {
             --bg-color: #050505;
@@ -26,13 +26,13 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: var(--font-main);
-            overflow: hidden; /* 防止滚动，全屏体验 */
+            overflow: hidden; /* Prevent scrolling */
             height: 100vh;
             width: 100vw;
             position: relative;
         }
 
-        /* 背景 Canvas */
+        /* Background Canvas */
         #canvas-bg {
             position: absolute;
             top: 0;
@@ -42,7 +42,7 @@
             z-index: 1;
         }
 
-        /* 主容器 */
+        /* Main Container */
         .container {
             position: relative;
             z-index: 10;
@@ -52,11 +52,11 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            pointer-events: none; /* 让鼠标能穿透到 Canvas */
+            pointer-events: none; /* Let mouse interact with canvas */
             padding: 20px;
         }
 
-        /* 中心卡片 */
+        /* Dashboard Card */
         .dashboard {
             pointer-events: auto;
             background: var(--card-bg);
@@ -73,7 +73,7 @@
             overflow: hidden;
         }
 
-        /* 扫描线效果 */
+        /* Scanning Line Effect */
         .dashboard::before {
             content: '';
             position: absolute;
@@ -102,7 +102,7 @@
             text-transform: uppercase;
         }
 
-        /* 状态网格 */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -130,14 +130,14 @@
             color: #fff;
         }
 
-        /* 终端模拟器 */
+        /* Terminal Window */
         .terminal-window {
             background: #000;
             border: 1px solid #333;
             height: 200px;
             border-radius: 4px;
             padding: 10px;
-            overflow-y: hidden; /* JS控制滚动 */
+            overflow-y: hidden; 
             text-align: left;
             font-size: 0.9rem;
             color: #ccc;
@@ -168,7 +168,7 @@
             vertical-align: middle;
         }
 
-        /* 页脚 */
+        /* Footer */
         .footer {
             margin-top: 20px;
             font-size: 0.8rem;
@@ -185,7 +185,7 @@
             color: var(--primary-color);
         }
 
-        /* 动画关键帧 */
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -208,7 +208,7 @@
             50% { opacity: 0; }
         }
 
-        /* 响应式 */
+        /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             .stats-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -217,13 +217,13 @@
     </style>
 </head>
 <body>
-    <!-- 动态背景 -->
+    <!-- Background Canvas -->
     <canvas id="canvas-bg"></canvas>
 
     <div class="container">
         <div class="dashboard">
             <h1>NODE-WS</h1>
-            <div class="subtitle">WebSocket 通信中枢</div>
+            <div class="subtitle">WebSocket Neural Hub</div>
 
             <div class="stats-grid">
                 <div class="stat-item">
@@ -253,12 +253,12 @@
     </div>
 
     <script>
-        // --- 1. 背景粒子特效逻辑 ---
+        // --- 1. Background Particles Logic ---
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let particlesArray;
 
-        // 设置 Canvas 尺寸
+        // Set Canvas Dimensions
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -266,13 +266,12 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.directionX = (Math.random() * 2) - 1; // 速度 -1 到 1
+                this.directionX = (Math.random() * 2) - 1; // Speed -1 to 1
                 this.directionY = (Math.random() * 2) - 1;
                 this.size = Math.random() * 2;
                 this.color = '#00ff88';
             }
 
-            // 绘制
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
@@ -280,7 +279,6 @@
                 ctx.fill();
             }
 
-            // 移动
             update() {
                 if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
                 if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
@@ -335,15 +333,15 @@
         animate();
 
 
-        // --- 2. 模拟数据逻辑 ---
+        // --- 2. Data Simulation Logic ---
         
-        // 随机更新仪表盘数字
+        // Randomly update dashboard stats
         setInterval(() => {
             // Ping
             const ping = Math.floor(Math.random() * 40) + 5;
             document.getElementById('ping').innerText = ping + "ms";
             
-            // Nodes (缓慢增加)
+            // Nodes (slowly fluctuate)
             const nodesElem = document.getElementById('nodes');
             let currentNodes = parseInt(nodesElem.innerText);
             if(Math.random() > 0.5) currentNodes += Math.floor(Math.random() * 3);
@@ -351,7 +349,7 @@
             nodesElem.innerText = currentNodes;
         }, 2000);
 
-        // --- 3. 终端日志逻辑 ---
+        // --- 3. Terminal Log Logic ---
         const logContent = document.getElementById('log-content');
         const logs = [
             { type: 'log-info', text: 'Initializing WebSocket Protocol...' },
@@ -372,17 +370,17 @@
             line.innerHTML = `<span class="log-time">${timeStr}</span><span class="${type}">${text}</span>`;
             logContent.appendChild(line);
             
-            // 保持滚动到底部
+            // Scroll to bottom
             const terminal = document.getElementById('terminal');
             terminal.scrollTop = terminal.scrollHeight;
             
-            // 限制日志行数
+            // Limit log lines
             if (logContent.children.length > 8) {
                 logContent.removeChild(logContent.firstChild);
             }
         }
 
-        // 初始日志
+        // Play initial logs
         let logIndex = 0;
         function playInitialLogs() {
             if (logIndex < logs.length) {
@@ -394,7 +392,7 @@
             }
         }
 
-        // 随机生成后续日志
+        // Generate random subsequent logs
         function startRandomLogs() {
             const actions = [
                 'Client #4922 connected from 192.168.x.x',
@@ -404,17 +402,18 @@
                 'Client #4922 disconnected',
                 'New encryption key generated',
                 'Buffer flushed',
-                'WebSocket frame processed'
+                'WebSocket frame processed',
+                'Upstream health check: OK'
             ];
             
             setInterval(() => {
                 const action = actions[Math.floor(Math.random() * actions.length)];
                 let type = 'log-info';
-                if (action.includes('connected')) type = 'log-success';
+                if (action.includes('connected') || action.includes('OK')) type = 'log-success';
                 if (action.includes('loss')) type = 'log-warn';
                 
                 addLog(type, action);
-            }, Math.random() * 3000 + 1000); // 1-4秒随机间隔
+            }, Math.random() * 3000 + 1000); // Random interval 1-4s
         }
 
         playInitialLogs();
